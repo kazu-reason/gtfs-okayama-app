@@ -58,12 +58,12 @@ async function updateTimetable(event){
         json.stop_times.map(function(i){
             return `
     <tr class="timetable-line" data-shape_id="${i['shape_id']}" data-service_id="${i['service_id']}" data-route_id="${i['route_id']}" data-trip_id="${i['trip_id']}">
-        <td>${i['service_id']}</td>
-        <td>${i['departure_time'].substring(0, 5)}</td>
-        <td>${i['route_long_name']}</td>
+        <!-- <td>${i['service_id']}</td> -->
         <td>${i['headsign']}行き</td>
+        <td>${i['route_long_name']}</td>
+        <td>${i['departure_time'].substring(0, 5)}</td>
         <td>${i['agency_name']}</td>
-        <td>${i['shape_id']}</td>
+        <!-- <td>${i['shape_id']}</td> -->
     </tr>`;
         }).join('\n')
     }

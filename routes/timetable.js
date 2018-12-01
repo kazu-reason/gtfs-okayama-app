@@ -54,6 +54,34 @@ router.get('/:stop_id', function(req, res, next) {
             stop_times: stop_times
         }
 
+        // var record = []
+        var current_date = new Date()
+        var current_time = current_date.getHours()*10000 + current_date.getMinutes()*100 + current_date.getSeconds()
+        var flag = 0
+
+        for(i of rtn_obj.stop_times){
+            var tmp = i.arrival_time.replace( /:/g , "")
+            tmp = parseInt(tmp)
+            var a = tmp % 100
+            var b = tmp/100 % 100
+            var c = tmp/10000 % 100
+            var result = tmp - current_time
+            console.log(a,b,c)
+            if(result>500){
+                var record = i
+                break
+                // flag = flag + 1
+            }
+            // if(flag => 2) break;
+        }
+        // console.log(rtn_obj)
+        rtn_obj = { stop_id: '750_1',
+        date: '2018-12-01',
+        stop_times:
+            [
+                record
+            ]
+        }
         res.json(rtn_obj)
     })
 });
