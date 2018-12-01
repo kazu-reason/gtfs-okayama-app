@@ -63,6 +63,7 @@ async function updateTimetable(event){
         <td>${i['route_long_name']}</td>
         <td>${i['departure_time'].substring(0, 5)}</td>
         <td>${i['agency_name']}</td>
+        <td>あと${i['time_left']}分です</td>
         <!-- <td>${i['shape_id']}</td> -->
     </tr>`;
         }).join('\n')

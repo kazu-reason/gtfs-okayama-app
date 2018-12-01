@@ -54,33 +54,29 @@ router.get('/:stop_id', function(req, res, next) {
             stop_times: stop_times
         }
 
-        // var record = []
+        var records = []
         var current_date = new Date()
-        var current_time = current_date.getHours()*10000 + current_date.getMinutes()*100 + current_date.getSeconds()
+        var current_time = current_date.getHours()*3600 + current_date.getMinutes()*60 + current_date.getSeconds()
         var flag = 0
 
-        for(i of rtn_obj.stop_times){
-            var tmp = i.arrival_time.replace( /:/g , "")
-            tmp = parseInt(tmp)
-            var a = tmp % 100
-            var b = tmp/100 % 100
-            var c = tmp/10000 % 100
-            var result = tmp - current_time
-            console.log(a,b,c)
-            if(result>500){
-                var record = i
-                break
-                // flag = flag + 1
-            }
-            // if(flag => 2) break;
+        for(record of rtn_obj.stop_times){
+            var tmp = record.arrival_time.split(":")//.replace( /:/g , "")
+            tmp.forEach(parseInt)
+            var seconds = tmp[0]*3600+tmp[1]*60+tmp[2]
+            var result = seconds - current_time
+            console.log(seconds, current_time)
+            // if(result>300){
+            record['time_left'] = parseInt(result/60)
+            records.push(record)
+            flag = flag + 1
+            // }
+            if(flag == 2) break;
         }
-        // console.log(rtn_obj)
-        rtn_obj = { stop_id: '750_1',
-        date: '2018-12-01',
-        stop_times:
-            [
-                record
-            ]
+        console.log(rtn_obj)
+        rtn_obj = { stop_id: rtn_obj.stop_id,
+            date: rtn_obj.date,
+            stop_times:
+                records
         }
         res.json(rtn_obj)
     })
