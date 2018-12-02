@@ -58,21 +58,21 @@ router.get('/:stop_id', function(req, res, next) {
         var current_date = new Date()
         var current_time = current_date.getHours()*3600 + current_date.getMinutes()*60 + current_date.getSeconds()
         var flag = 0
-
+        
         for(record of rtn_obj.stop_times){
-            var tmp = record.arrival_time.split(":")//.replace( /:/g , "")
-            tmp.forEach(parseInt)
-            var seconds = tmp[0]*3600+tmp[1]*60+tmp[2]
+            var tmp = record.arrival_time.split(":")
+            tmp.forEach(function (val, idx) {
+                tmp[idx] = parseInt(val)
+            })
+            var seconds = (tmp[0]*3600)+(tmp[1]*60)+tmp[2]
             var result = seconds - current_time
-            console.log(seconds, current_time)
-            // if(result>300){
-            record['time_left'] = parseInt(result/60)
-            records.push(record)
-            flag = flag + 1
-            // }
+            if(result>300){
+                record['time_left'] = parseInt(result/60)
+                records.push(record)
+                flag = flag + 1
+            }
             if(flag == 2) break;
         }
-        console.log(rtn_obj)
         rtn_obj = { stop_id: rtn_obj.stop_id,
             date: rtn_obj.date,
             stop_times:
