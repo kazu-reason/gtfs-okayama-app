@@ -22,6 +22,64 @@ const shapeStyle = {
     "opacity": 0.65
 };
 
+var setInterval_ID = 0
+
+// slider
+var $slider = $('.slider');
+$slider.slick({
+    // スライドの高さが違うときに自動調整するか [初期値:false]
+    adaptiveHeight: true,
+    // 自動再生するか [初期値:false]
+    autoplay: true,
+    // 自動再生で切り替えする時間(ミリ秒) [初期値:3000]
+    autoplaySpeed: 3000,
+    // 前次ボタンを表示するか [初期値:true]
+    arrows: false,
+    // slidesToShowが奇数のとき、現在のスライドを中央に表示するか [初期値:false]
+    centerMode: true,
+    // centerMode:trueのとき、左右のスライドをチラ見せさせる幅 [初期値:'50px']
+    centerPadding: '0px',
+    // スライドをループさせるか [初期値:true]
+    infinite: true,
+    // autoplay:trueのとき、マウスフォーカスしたら一時停止させるか [初期値:true]
+    pauseOnFocus: false,
+    // autoplay:trueのとき、マウスホバーしたら一時停止させるか [初期値:true]
+    pauseOnHover: false,
+    // レスポンシブ設定の基準（window/slider/min） [初期値:'window']
+    respondTo: 'slider',
+});
+
+// mapの表示/非表示切り替え
+$('#togglebutton').click(function(){
+    // $('#mapid').toggle();
+    const p2 = document.getElementById("mapid");
+    if(p2.style.visibility=="visible"){
+		// hiddenで非表示
+		p2.style.visibility ="hidden";
+	}else{
+		// visibleで表示
+		p2.style.visibility ="visible";
+	}
+});
+
+var obj_UpLoadButton = document.getElementById("uploadfile");
+
+obj_UpLoadButton.addEventListener("change", function(evt){
+  var file = evt.target.files;
+  var reader = new FileReader();
+  
+  //dataURL形式でファイルを読み込む
+  reader.readAsDataURL(file[0]);
+  
+  //ファイルの読込が終了した時の処理
+  reader.onload = function(){
+    var dataUrl = reader.result;
+
+    //読み込んだ画像とdataURLを書き出す
+    $slider.slick('slickAdd', "<div>" + "<img src='" + dataUrl + "'>" + "</div>");
+  }
+},false);
+
 function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties && feature.properties.stop_name) {
