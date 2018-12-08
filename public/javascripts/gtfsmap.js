@@ -26,7 +26,7 @@ function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties && feature.properties.stop_name) {
         const sid = feature.properties.stop_id;
-        layer.bindPopup(feature.properties.stop_name + " " + feature.properties.stop_id).on('click', updateTimetable);
+        layer.bindPopup(feature.properties.stop_name + " " + feature.properties.stop_id).on('click', call_updateTimetable);
     }
 }
 
@@ -42,6 +42,18 @@ async function getStops(url) {
             return L.circleMarker(latlng, geojsonMarkerOptions);
         }
     }).addTo(mymap);
+}
+
+// 60秒毎にデータを更新するための関数．
+async function call_updateTimetable(event){
+    // この関数が複数回呼び出されていた場合，前回分のsetIntervalを停止させる
+    if(setInterval_ID != 0){
+        clearInterval(setInterval_ID)
+    }
+    await updateTimetable(event)
+    setInterval_ID =  setInterval(async function() {
+        updateTimetable(event)
+    },60000);
 }
 
 
