@@ -24,7 +24,7 @@ router.get('/', function(req, res, next) {
 
     db.task(async t => {
         const rtn = await t.any(query);
-        console.log(rtn)
+        // console.log(rtn)
         res.json(rtn)
     })
 });

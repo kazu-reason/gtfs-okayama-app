@@ -59,6 +59,7 @@ router.get('/:stop_id', function(req, res, next) {
         var current_time = current_date.getHours()*3600 + current_date.getMinutes()*60 + current_date.getSeconds()
         var flag = 0
         
+        //現在時刻から最も直近の2便を抽出
         for(record of rtn_obj.stop_times){
             var tmp = record.arrival_time.split(":")
             tmp.forEach(function (val, idx) {
